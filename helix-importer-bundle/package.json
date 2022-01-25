@@ -1,0 +1,42 @@
+{
+  "name": "helix-importer-bundle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "importer.js",
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "BROWSERIFYSWAP_DIAGNOSTICS=true npx browserify -d -p esmify src/importer.js --standalone importer -o ../importer-bundle.js"
+  },
+  "dependencies": {
+    "@adobe/helix-importer": "1.2.0"
+  },
+  "devDependencies": {
+    "aliasify": "2.1.0",
+    "browserify": "17.0.0",
+    "browserify-swap": "0.2.2",
+    "browserify-zlib": "0.2.0",
+    "buffer": "6.0.3",
+    "esmify": "2.1.1",
+    "https-browserify": "1.0.0",
+    "net": "1.0.2",
+    "path-browserify": "1.0.1",
+    "stream-browserify": "3.0.0",
+    "stream-http": "3.2.0",
+    "util": "0.12.4"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-swap"
+    ]
+  },
+  "browserify-swap": {
+    "prod": {
+      "node\\:http": "http",
+      "/Users/acapt/work/dev/helix/playground/helix-web-importer/helix-importer-bundle/node:http": "http",
+      "/Users/acapt/work/dev/helix/playground/helix-web-importer/helix-importer-bundle/node:https": "https",
+      "node\\:https": "https"
+    }
+  }
+}

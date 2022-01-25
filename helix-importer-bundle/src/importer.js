@@ -3,6 +3,7 @@ import {
   PageImporterResource,
   DOMUtils,
   Blocks,
+  MemoryHandler,
 } from '@adobe/helix-importer';
 
 
@@ -10,18 +11,19 @@ class WebImporter {
   static async transform(html, transformFct) {
     class InternalImporter extends PageImporter {
       async fetch() {
-        return html;
+        return new Response(html);
       }
 
       async process(document) {
-        const out = transformFct(document);
+        const out = document;//transformFct(document);
         const pir = new PageImporterResource('static', '/', out, null, {});
         return [pir];
       }
     }
-    
+
+    const storageHandler = new MemoryHandler(console);
     const importer = new InternalImporter({
-      storageHandler: new MemoryHandler(console),
+      storageHandler,
       skipDocxConversion: true,
       // skipMDFileCreation: true,
       logger: console,
@@ -29,7 +31,7 @@ class WebImporter {
 
     const results = await importer.import('');
     console.log(results);
-    return await storageHandler.get('/static.md');
+    return await storageHandler.get('//static.md');
   }
 }
 

@@ -16,18 +16,14 @@ module.exports = {
   target: ['web', 'es2020'],
   entry: './src/importer.js',
   output: {
-    filename: 'main.js',
+    filename: 'importer-bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: 'http://localhost:8080/',
     library: {
-      // type: 'module',
       name: 'WebImporter',
       type: 'umd',
     },
   },
-  // experiments: {
-  //   outputModule: true,
-  // },
   resolve: {
     fallback: {
       path: false,
@@ -36,12 +32,8 @@ module.exports = {
       tls: false,
       child_process: false,
       worker_threads: false,
-      // url: false,
       'stream/web': false,
       url: false,
-      // 'node:stream': false,
-      // 'node:stream/web': false,
-      // 'node:process': false,
     },
     alias: {
       'fs-extra': 'fs',
@@ -60,7 +52,7 @@ module.exports = {
       if (resource.request === 'url') {
         // this is some hack, since mdast-util-to-markdown has a `import {URL} from 'node:url`
         // which is handled wrongly by webpack, as the usual `url` polyfill doesn't include URL.
-        resource.request = path.resolve(__dirname, './test/url-constructor-polyfill.cjs');
+        resource.request = path.resolve(__dirname, './polyfills/url-constructor-polyfill.cjs');
       }
     }),
     new NodePolyfillPlugin(),

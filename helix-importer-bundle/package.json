@@ -7,8 +7,6 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "_build": "BROWSERIFYSWAP_DIAGNOSTICS=true npx browserify -d -p esmify src/importer.js --standalone importer -o ../importer-bundle.js",
-    "__build": "webpack --mode=production --config webpack.config.cjs",
     "build": "webpack --config webpack.config.cjs",
     "start": "webpack serve --config webpack.config.cjs"
   },

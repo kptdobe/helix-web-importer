@@ -7,16 +7,13 @@
 <body>
 
 
-<script type="module" src="./main.js"></script>
+<script type="module" src="./importer-bundle.js"></script>
 <script type="module">
-    // import { WebImporter } from './main.js';
+    const result = await WebImporter.html2md('http://localhost:8080/index.html', '<html><body><h1>Hello</h1><div>foobar</div></body></html>', (e) => e.body);
 
-    console.log(WebImporter);
-
-    const result = await WebImporter.WebImporter.transform('<html><body><h1>Hello</h1><div>foobar</div></body></html>');
-
+    console.log('result', result);
     const $out = document.createElement('div');
-    $out.innerText = result;
+    $out.innerText = result.md;
     document.body.appendChild($out);
 </script>
 </body>

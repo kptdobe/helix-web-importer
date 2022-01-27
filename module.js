@@ -29,7 +29,7 @@
     }, {
       src: 'https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js',
     }, {
-      src: '/converter-bundle.js',
+      src: '/helix-importer-bundle/dist/importer-bundle.js',
     }],
     template: `<div class="wrapper">
     <div class="left">
@@ -224,10 +224,14 @@
     }
 
     async transform() {
-      const outputHTML = document.documentElement.outerHTML;
-      this.transformedEditor.setValue(html_beautify(outputHTML));
+      const transformFct = (element) => {
+        return element.querySelector('.blogPostMain');
+      }
 
-      const md = await converter.convert(outputHTML);
+      const out = await WebImporter.html2md(window.location.href, document.documentElement.outerHTML, transformFct);
+      const { md, html: outputHTML } = out;
+      
+      this.transformedEditor.setValue(html_beautify(outputHTML));
       this.markdownEditor.setValue(md || '');
 
       const mdPreview = this.showdownConverter.makeHtml(md);

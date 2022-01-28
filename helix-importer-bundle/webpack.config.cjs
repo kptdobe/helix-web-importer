@@ -26,7 +26,7 @@ module.exports = {
   },
   resolve: {
     fallback: {
-      path: false,
+      path: 'path-browserify',
       fs: false,
       net: false,
       tls: false,

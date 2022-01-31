@@ -115,18 +115,28 @@
 .hlx-importer #markdownPreview {
   flex: 1 1 auto;
   margin-top: 0;
-  height: 450px;
+  height: 440px;
   width: 100%;
   position: relative;
   margin-left: 5px;
   overflow: scroll;
   overflow-x: hidden;
 
-  background-color: black;
+  background-color: white;
+  color: black;
 }
 
 .hlx-importer #markdownPreview img {
   max-width: 100%;
+}
+
+.hlx-importer #markdownPreview table,
+.hlx-importer #markdownPreview th,
+.hlx-importer #markdownPreview td {
+  border: 1px solid lightgrey;
+  border-collapse: collapse;
+  max-width: 100%;
+  margin: 40px 2px;
 }
 
 .hlx-importer .hidden {

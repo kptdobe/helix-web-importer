@@ -173,9 +173,10 @@
     async loadSequence() {
       this.loadCSS();
       await this.loadScripts();
+      await this.initProjectTransformPolling();
       this.init();
-      return this.transform();
     }
+
     async loadScripts() {
       const shadowRoot = this.shadowRoot;
       for (let i=0; i < setup.scripts.length; i++) {
@@ -191,6 +192,44 @@
       }
     }
 
+    async initProjectTransformPolling() {
+      const $this = this;
+      const loadModule = async (projectTransformFileURL) => {
+        try{ 
+          const mod = await import(`${projectTransformFileURL}?cf=${new Date().getTime()}`);
+          if (mod.default) {
+            if (typeof mod.default === 'function') {
+              $this.projectTransform = mod.default;
+            } else if (mod.default.transform) {
+              $this.projectTransform = mod.default.transform;
+            }
+          }
+        } catch (err) {
+          console.warn(`failed to load project transform module`, err);
+        }
+      }
+      const poll = async () => {
+        const projectTransformFileURL = `${$this.config.host}/project-import.js`;
+        try {
+          const res = await fetch(projectTransformFileURL);
+          const body = await res.text();
+
+          if (body !== $this.lastProjectTransformFileBody) {
+            $this.lastProjectTransformFileBody = body;
+            await loadModule(projectTransformFileURL);
+            $this.transform();
+          }
+        } catch (err) {
+          console.warn(`failed to poll project transform module`, err);
+        }
+      };
+
+      if (!this.projectTransformInterval) {
+        await poll();
+        this.projectTransformInterval = setInterval(poll, 5000);
+      }
+    }
+
     init() {
       this.root.innerHTML = setup.template;
       
@@ -199,7 +238,7 @@
         mode: 'htmlmixed',
         theme: 'base16-dark',
       });
-      this.transformedEditor.setSize('100%', '750');
+      this.transformedEditor.setSize('100%', '440');
       
       this.markdownSource = this.shadowRoot.getElementById('markdownSource');
       this.markdownEditor = CodeMirror.fromTextArea(this.markdownSource, {
@@ -207,7 +246,7 @@
         mode: 'markdown',
         theme: 'base16-dark',
       });
-      this.markdownEditor.setSize('100%', '750');
+      this.markdownEditor.setSize('100%', '440');
 
       this.showdownConverter = new showdown.Converter();
       this.markdownPreview = this.shadowRoot.getElementById('markdownPreview');
@@ -224,18 +263,20 @@
     }
 
     async transform() {
-      const transformFct = (element) => {
-        return element.querySelector('.blogPostMain');
-      }
-
-      const out = await WebImporter.html2md(window.location.href, document.documentElement.outerHTML, transformFct);
+      const out = await WebImporter.html2md(window.location.href, document.documentElement.outerHTML, this.projectTransform);
       const { md, html: outputHTML } = out;
       
       this.transformedEditor.setValue(html_beautify(outputHTML));
       this.markdownEditor.setValue(md || '');
 
       const mdPreview = this.showdownConverter.makeHtml(md);
-      this.markdownPreview.innerHTML = mdPreview;//`<div>${mdPreview}</div>`;
+      this.markdownPreview.innerHTML = mdPreview;
+
+      // remove existing classes and styles
+      Array.from(this.markdownPreview.querySelectorAll('[class], [style]')).forEach((t) => {
+        t.removeAttribute('class');
+        t.removeAttribute('style');
+      });
         
     }
 

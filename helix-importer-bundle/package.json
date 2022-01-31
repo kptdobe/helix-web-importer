@@ -11,7 +11,7 @@
     "start": "webpack serve --config webpack.config.cjs"
   },
   "dependencies": {
-    "@adobe/helix-importer": "1.2.2"
+    "@adobe/helix-importer": "1.3.0"
   },
   "devDependencies": {
     "node-polyfill-webpack-plugin": "1.1.4",

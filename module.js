@@ -39,11 +39,11 @@
       </div>
     </div>
     <div class="right markdown">
-      <h2>Markdown - Preview <input type="checkbox" id="mdPreviewCheckbox"></h2>
-      <div class="code">
+      <h2>Markdown - Preview <input type="checkbox" id="mdPreviewCheckbox" checked></h2>
+      <div class="code hidden">
         <textarea id="markdownSource" rows="4" cols="10"></textarea>
       </div>
-      <div id="markdownPreview" class="hidden"></div>
+      <div id="markdownPreview"></div>
     </div>
   </div>`
   }
@@ -209,7 +209,8 @@
         }
       }
       const poll = async () => {
-        const projectTransformFileURL = `${$this.config.host}/project-import.js`;
+        // TODO make it configurable
+        const projectTransformFileURL = 'http://localhost:3000/tools/importer/import.js';
         try {
           const res = await fetch(projectTransformFileURL);
           const body = await res.text();

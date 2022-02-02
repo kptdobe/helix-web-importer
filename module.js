@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="right markdown">
-      <h2>Markdown - Preview <input type="checkbox" id="mdPreviewCheckbox" checked></h2>
+      <h2>Markdown - Preview <input type="checkbox" id="mdPreviewCheckbox" checked><button id="save">Save as Word</button></h2>
       <div class="code hidden">
         <textarea id="markdownSource" rows="4" cols="10"></textarea>
       </div>
@@ -195,14 +195,10 @@
     async initProjectTransformPolling() {
       const $this = this;
       const loadModule = async (projectTransformFileURL) => {
-        try{ 
+        try { 
           const mod = await import(`${projectTransformFileURL}?cf=${new Date().getTime()}`);
           if (mod.default) {
-            if (typeof mod.default === 'function') {
-              $this.projectTransform = mod.default;
-            } else if (mod.default.transform) {
-              $this.projectTransform = mod.default.transform;
-            }
+            this.projectTransform = mod.default;
           }
         } catch (err) {
           console.warn(`failed to load project transform module`, err);
@@ -221,7 +217,12 @@
             $this.transform();
           }
         } catch (err) {
-          console.warn(`failed to poll project transform module`, err);
+          if ($this.lastProjectTransformFileBody !== 'nofilefound') {
+            console.warn(`failed to poll project transform module`, err);
+            $this.lastProjectTransformFileBody = 'nofilefound';
+            $this.transform();
+          }
+          
         }
       };
 
@@ -257,9 +258,22 @@
           this.markdownSource.parentElement.classList.add('hidden');
           this.markdownPreview.classList.remove('hidden');
         } else {
-          this.markdownSource.parentElement.classList.remove('hidden');
           this.markdownPreview.classList.add('hidden');
+          this.markdownSource.parentElement.classList.remove('hidden');
+          this.markdownEditor.refresh();
         }
+      }).bind(this));
+
+      this.shadowRoot.getElementById('save').addEventListener('click',  (async (evt) => {
+        const out = await WebImporter.html2docx(window.location.href, document.documentElement.outerHTML, this.projectTransform);
+        const { docx } = out;
+        const filename = 'tobecomputed.docx';
+
+        const a = document.createElement('a');
+        const blob = new Blob([ docx ], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+        a.setAttribute('href', URL.createObjectURL(blob));
+        a.setAttribute('download', filename);
+        a.click()
       }).bind(this));
     }
 

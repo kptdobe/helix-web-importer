@@ -112,6 +112,10 @@
   margin: 2px;
 }
 
+.hlx-importer #save {
+  float: right;
+}
+
 .hlx-importer #markdownPreview {
   flex: 1 1 auto;
   margin-top: 0;
@@ -124,19 +128,27 @@
 
   background-color: white;
   color: black;
+
+  padding-right: 4px;
 }
 
 .hlx-importer #markdownPreview img {
   max-width: 100%;
 }
-
 .hlx-importer #markdownPreview table,
 .hlx-importer #markdownPreview th,
 .hlx-importer #markdownPreview td {
   border: 1px solid lightgrey;
   border-collapse: collapse;
   max-width: 100%;
+}
+.hlx-importer #markdownPreview table {
   margin: 40px 2px;
+  width: 100%;
+}
+
+.hlx-importer #markdownPreview th {
+  background-color: lightblue;
 }
 
 .hlx-importer .hidden {

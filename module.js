@@ -266,8 +266,15 @@
 
       this.shadowRoot.getElementById('save').addEventListener('click',  (async (evt) => {
         const out = await WebImporter.html2docx(window.location.href, document.documentElement.outerHTML, this.projectTransform);
-        const { docx } = out;
-        const filename = 'tobecomputed.docx';
+        const { docx, name } = out;
+        let filename = window.location.pathname
+          .replace(/^\//, '')
+          .replace(/\/$/, '.docx')
+          .replace(/\//, '---');
+
+        if (name) {
+          filename = `${name}.docx`;
+        }
 
         const a = document.createElement('a');
         const blob = new Blob([ docx ], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });

@@ -1,3 +1,16 @@
+/*
+ * Copyright 2022 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
+import path, { dirname } from 'path';
 import {
   PageImporter,
   PageImporterResource,
@@ -9,18 +22,34 @@ import {
 import docxStylesXML from './styles.xml';
 
 async function html2x(url, html, transformCfg, toMd, toDocx) {
+  let name = 'static';
+  let dirname = ''
+
   class InternalImporter extends PageImporter {
     async fetch() {
       return new Response(html);
     }
 
     async process(document) {
+      // remove the helix-importer from the provided DOM
+      document.querySelector('helix-importer').remove();
+
       let output = document.body;
       if (transformCfg && transformCfg.transformDOM) {
         output = transformCfg.transformDOM(document);
       }
-      const pir = new PageImporterResource('static', '', output, null, {
-        html: output ? output.outerHTML : input.outerHTML
+      output = output || document.body;
+
+      if (transformCfg && transformCfg.generateDocumentPath) {
+        const p = transformCfg.generateDocumentPath(url, document);
+        if (p) {
+          name = path.basename(p);
+          dirname = path.dirname(p);
+        }
+      }
+
+      const pir = new PageImporterResource(name, dirname, output, null, {
+        html: output.outerHTML
       });
       return [pir];
     }
@@ -46,15 +75,23 @@ async function html2x(url, html, transformCfg, toMd, toDocx) {
   const pirs = await importer.import(url);
 
   const res = {
-    html: pirs[0].extra.html
+    html: pirs[0].extra.html,
+  }
+
+  if (name !== 'static') {
+    res.name = name;
+    res.dirname = dirname;
+    res.path = `${dirname}/${name}`;
+  } else {
+    res.path = `/${name}`
   }
 
   if (toMd) {
-    const md = await storageHandler.get('/static.md');
+    const md = await storageHandler.get(`${res.path}.md`);
     res.md = md;
   }
   if (toDocx) {
-    const docx = await storageHandler.get('/static.docx');
+    const docx = await storageHandler.get(`${res.path}.docx`);
     res.docx = docx
   }
   

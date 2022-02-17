@@ -12,7 +12,11 @@ module.exports = {
     }],
     
     hot: true,
-    port: 8080
+    port: 8080,
+    client: {
+      webSocketURL: 'ws://localhost:8080/ws',
+    },
+    allowedHosts: 'all'
   },
   target: ['web', 'es2020'],
   entry: './src/importer.js',

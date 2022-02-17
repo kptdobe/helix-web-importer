@@ -1,5 +1,5 @@
 {
-  "name": "helix-importer-bundle",
+  "name": "helix-web-importer",
   "version": "1.0.0",
   "description": "",
   "main": "importer.js",

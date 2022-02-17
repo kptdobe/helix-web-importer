@@ -29,7 +29,7 @@
     }, {
       src: 'https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js',
     }, {
-      src: '/helix-importer-bundle/dist/importer-bundle.js',
+      src: '/dist/importer-bundle.js',
     }],
     template: `<div class="wrapper">
     <div class="left">

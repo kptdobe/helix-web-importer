@@ -6,19 +6,20 @@ const { NormalModuleReplacementPlugin } = require('webpack');
 module.exports = {
   mode: 'development',
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
+    static: [{
+      directory: path.join(__dirname, 'web'),
+      publicPath: '/'
+    }],
+    
     hot: true,
-    port: 8080,
-    open: true,
+    port: 8080
   },
   target: ['web', 'es2020'],
   entry: './src/importer.js',
   output: {
     filename: 'importer-bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: 'http://localhost:8080/',
+    path: path.resolve(__dirname, 'web/dist'),
+    publicPath: '/dist',
     library: {
       name: 'WebImporter',
       type: 'umd',

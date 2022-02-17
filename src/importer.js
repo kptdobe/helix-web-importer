@@ -19,7 +19,7 @@ import {
   MemoryHandler,
 } from '@adobe/helix-importer';
 
-import docxStylesXML from './styles.xml';
+import docxStylesXML from '../resources/styles.xml';
 
 async function html2x(url, html, transformCfg, toMd, toDocx) {
   let name = 'static';

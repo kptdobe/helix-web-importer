@@ -78,6 +78,10 @@
   box-shadow: var(--hlx-importer-shadow);
 }
 
+.hlx-importer-hidden {
+  display: none;
+}
+
 .hlx-importer .wrapper {
   display: flex;
   flex-wrap: wrap;

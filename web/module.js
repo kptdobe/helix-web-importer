@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="right markdown">
-      <h2>Markdown - Preview <input type="checkbox" id="mdPreviewCheckbox" checked><button id="save">Save as Word</button></h2>
+      <h2>Markdown - Preview <input type="checkbox" id="mdPreviewCheckbox" checked><div class="menu"><button id="save">Save as Word</button></div></h2>
       <div class="code hidden">
         <textarea id="markdownSource" rows="4" cols="10"></textarea>
       </div>

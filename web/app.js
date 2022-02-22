@@ -27,10 +27,12 @@
     const moduleScript = document.createElement('script');
     moduleScript.id = 'hlx-importer-module';
     moduleScript.src = `${host}/module.js`;
+    const config = JSON.parse(appScript.dataset['config'] || "{}");
     moduleScript.addEventListener('load', () => {
-      window.hlx.initImporter({
+      window.hlx.initImporter(Object.assign({
+        importFileURL: 'http://localhost:3000/tools/importer/import.js', // default
         host
-      });
+      }, config));
     });
 
     moduleScript.addEventListener('error', () => {

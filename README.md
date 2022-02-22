@@ -21,6 +21,14 @@ javascript: { const script = document.createElement('script'); script.setAttribu
 
 This should provide a default transformation to the current page.
 
+You can pass in some custom options like:
+
+```
+javascript: { const config = { importFileURL: 'http://localhost:3000/tools/importer/import.js' }; const script = document.createElement('script'); script.setAttribute('data-config',JSON.stringify(config)); script.setAttribute('src', `http://localhost:8080/app.js`); script.setAttribute('type', 'text/javascript'); script.setAttribute('id', 'hlx-importer-app'); document.head.appendChild(script); }
+```
+
+In this example, `importFileURL` config is the default one used but can be changed to something else.
+
 ## importer script
 
 In order to customize the transformation, just run `hlx up` in your project and create the `/tools/importer/import.js` file. Default / example skeleton:

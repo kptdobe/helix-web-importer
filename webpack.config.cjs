@@ -33,8 +33,8 @@ module.exports = {
   entry: './src/importer.js',
   output: {
     filename: 'importer-bundle.js',
-    path: path.resolve(__dirname, 'web/dist'),
-    publicPath: '/dist',
+    path: path.resolve(__dirname, 'web/lib'),
+    publicPath: '/lib',
     library: {
       name: 'WebImporter',
       type: 'umd',

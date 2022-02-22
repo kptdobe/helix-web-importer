@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import path, { dirname } from 'path';
+import path from 'path';
 import {
   PageImporter,
   PageImporterResource,

@@ -16,6 +16,7 @@ const { NormalModuleReplacementPlugin } = require('webpack');
 
 module.exports = {
   mode: 'development',
+  devtool: 'nosources-source-map',
   devServer: {
     static: [{
       directory: path.join(__dirname, 'web'),

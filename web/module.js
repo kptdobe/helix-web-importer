@@ -205,8 +205,7 @@
         }
       }
       const poll = async () => {
-        // TODO make it configurable
-        const projectTransformFileURL = this.config.importFile;
+        const projectTransformFileURL = this.config.importFileURL;
         try {
           const res = await fetch(projectTransformFileURL);
           const body = await res.text();

@@ -11,18 +11,17 @@
  */
 module.exports = {
   context: () => {
+    // eslint-disable-next-line no-underscore-dangle
     const _fetch = async (resource, init) => {
       const ret = await fetch(resource, init);
       // response in @adobe/helix-fetch has a `buffer` method.
-      ret.buffer = async () => {
-        return Buffer.from(await ret.arrayBuffer());
-      };
+      ret.buffer = async () => Buffer.from(await ret.arrayBuffer());
       return ret;
-    }
+    };
 
-    return { 
+    return {
       fetch: _fetch,
       reset: () => {},
     };
   },
-}
+};

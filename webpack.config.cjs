@@ -9,9 +9,10 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const { NormalModuleReplacementPlugin } = require('webpack');
 
 module.exports = {
@@ -20,15 +21,14 @@ module.exports = {
   devServer: {
     static: [{
       directory: path.join(__dirname, 'web'),
-      publicPath: '/'
+      publicPath: '/',
     }],
-    
     hot: true,
     port: 8080,
     client: {
       webSocketURL: 'ws://localhost:8080/ws',
     },
-    allowedHosts: 'all'
+    allowedHosts: 'all',
   },
   target: ['web', 'es2020'],
   entry: './src/importer.js',
@@ -55,7 +55,7 @@ module.exports = {
     alias: {
       'fs-extra': 'fs',
       'node-fetch': 'fetch',
-    }
+    },
   },
   externals: {
     'node-fetch': 'fetch',
@@ -63,7 +63,7 @@ module.exports = {
   },
   plugins: [
     new NormalModuleReplacementPlugin(/node:/, (resource) => {
-      resource.request = resource.request.replace(/^node:/, "");
+      resource.request = resource.request.replace(/^node:/, '');
       if (resource.request === 'url') {
         // this is some hack, since mdast-util-to-markdown has a `import {URL} from 'node:url`
         // which is handled wrongly by webpack, as the usual `url` polyfill doesn't include URL.
@@ -71,7 +71,7 @@ module.exports = {
       }
     }),
     new NodePolyfillPlugin(),
-    new NormalModuleReplacementPlugin(/\@adobe\/helix\-fetch/, (resource) => {
+    new NormalModuleReplacementPlugin(/@adobe\/helix-fetch/, (resource) => {
       resource.request = path.resolve(__dirname, './polyfills/fetch-constructor-polyfill.cjs');
     }),
   ],
@@ -82,5 +82,5 @@ module.exports = {
         type: 'asset/source',
       },
     ],
-  }
+  },
 };

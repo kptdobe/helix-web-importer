@@ -10,7 +10,8 @@
  * governing permissions and limitations under the License.
  */
 const url = require('url');
+
 module.exports = {
   URL,
   ...url,
-}
+};

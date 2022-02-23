@@ -134,11 +134,11 @@
   }
 
   /**
-   * Returns the sidekick configuration.
+   * Returns the importer configuration.
    * @private
-   * @param {sidekickConfig} cfg The sidekick config (defaults to {@link window.hlx.sidekickConfig})
+   * @param {importerConfig} cfg The importer config (defaults to {@link window.hlx.importerConfig})
    * @param {Location} location The current location
-   * @returns {Object} The sidekick configuration
+   * @returns {Object} The importer configuration
    */
   function initConfig() {
     const config = (window.hlx && window.hlx.importerConfig) || {};

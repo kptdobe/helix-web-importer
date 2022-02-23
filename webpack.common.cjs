@@ -16,20 +16,6 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const { NormalModuleReplacementPlugin } = require('webpack');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'nosources-source-map',
-  devServer: {
-    static: [{
-      directory: path.join(__dirname, 'web'),
-      publicPath: '/',
-    }],
-    hot: true,
-    port: 8080,
-    client: {
-      webSocketURL: 'ws://localhost:8080/ws',
-    },
-    allowedHosts: 'all',
-  },
   target: ['web', 'es2020'],
   entry: './src/importer.js',
   output: {

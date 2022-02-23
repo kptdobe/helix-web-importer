@@ -34,7 +34,7 @@ module.exports = {
   entry: './src/importer.js',
   output: {
     filename: 'importer-bundle.js',
-    path: path.resolve(__dirname, 'web/lib'),
+    path: path.resolve(__dirname, 'dist/lib'),
     publicPath: '/lib',
     library: {
       name: 'WebImporter',

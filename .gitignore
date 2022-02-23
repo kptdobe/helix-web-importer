@@ -1,4 +1,5 @@
 node_modules
+dist
 */dist
 web/lib/importer-bundle.js
 web/lib/importer-bundle.js.map

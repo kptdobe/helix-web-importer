@@ -136,8 +136,6 @@
   /**
    * Returns the importer configuration.
    * @private
-   * @param {importerConfig} cfg The importer config (defaults to {@link window.hlx.importerConfig})
-   * @param {Location} location The current location
    * @returns {Object} The importer configuration
    */
   function initConfig() {

@@ -17,7 +17,7 @@ const common = require('./webpack.common.cjs');
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'nosources-source-map',
+  devtool: 'eval',
   devServer: {
     static: [{
       directory: path.join(__dirname, 'web'),

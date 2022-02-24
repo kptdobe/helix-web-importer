@@ -21,10 +21,26 @@ import {
 
 import docxStylesXML from '../resources/styles.xml';
 
-async function html2x(url, html, transformCfg, toMd, toDocx) {
-  let name = 'static';
-  let dirname = ''
+function preprocessDOM(document) {
+  const elements = document.querySelectorAll('body, header, footer, div, span, section, main');
+  const getComputedStyle = document.defaultView.getComputedStyle;
+  elements.forEach((element) => {
+    // css background images will be lost -> write them in the DOM
+    const style = getComputedStyle(element);
+    if (style['background-image'] && style['background-image'].toLowerCase() !== 'none') {
+      element.style['background-image'] = style['background-image'];
+    }
+  });
+}
 
+async function html2x(url, document, transformCfg, toMd, toDocx, preprocess = true) {
+  let name = 'static';
+  let dirname = '';
+
+  if (preprocess) {
+    preprocessDOM(document);
+  }
+  const html = document.documentElement.outerHTML;
   class InternalImporter extends PageImporter {
     async fetch() {
       return new Response(html);
@@ -98,12 +114,12 @@ async function html2x(url, html, transformCfg, toMd, toDocx) {
   return res;
 }
 
-async function html2md(url, html, transformCfg) {
-  return html2x(url, html, transformCfg, true, false);
+async function html2md(url, document, transformCfg, preprocess) {
+  return html2x(url, document, transformCfg, true, false, preprocess);
 }
 
-async function html2docx(url, html, transformCfg) {
-  return html2x(url, html, transformCfg, true, true);
+async function html2docx(url, document, transformCfg, preprocess) {
+  return html2x(url, document, transformCfg, true, true, preprocess);
 }
 
 export {

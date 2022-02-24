@@ -87,11 +87,11 @@ async function html2x(url, html, transformCfg, toMd, toDocx) {
   }
 
   if (toMd) {
-    const md = await storageHandler.get(`${res.path}.md`);
+    const md = await storageHandler.get(pirs[0].md);
     res.md = md;
   }
   if (toDocx) {
-    const docx = await storageHandler.get(`${res.path}.docx`);
+    const docx = await storageHandler.get(pirs[0].docx);
     res.docx = docx
   }
   

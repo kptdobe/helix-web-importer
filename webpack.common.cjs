@@ -29,7 +29,7 @@ module.exports = {
   },
   resolve: {
     fallback: {
-      path: 'path-browserify',
+      path: require.resolve('path-browserify'),
       fs: false,
       net: false,
       tls: false,

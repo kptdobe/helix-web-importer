@@ -11,6 +11,7 @@
  */
 
 import path from 'path';
+import { JSDOM } from 'jsdom';
 import {
   PageImporter,
   PageImporterResource,
@@ -48,7 +49,10 @@ async function html2x(url, document, transformCfg, toMd, toDocx, preprocess = tr
 
     async process(document) {
       // remove the helix-importer from the provided DOM
-      document.querySelector('helix-importer').remove();
+      const hlx = document.querySelector('helix-importer');
+      if (hlx) {
+        hlx.remove();
+      }
 
       let output = document.body;
       if (transformCfg && transformCfg.transformDOM) {
@@ -115,10 +119,16 @@ async function html2x(url, document, transformCfg, toMd, toDocx, preprocess = tr
 }
 
 async function html2md(url, document, transformCfg, preprocess) {
+  if (typeof document === 'string') {
+    document = new JSDOM(document, { runScripts: undefined }).window.document;
+  }
   return html2x(url, document, transformCfg, true, false, preprocess);
 }
 
 async function html2docx(url, document, transformCfg, preprocess) {
+  if (typeof document === 'string') {
+    document = new JSDOM(document, { runScripts: undefined }).window.document;
+  }
   return html2x(url, document, transformCfg, true, true, preprocess);
 }
 

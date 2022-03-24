@@ -1521,6 +1521,15 @@
     <w:semiHidden/>
     <w:unhideWhenUsed/>
   </w:style>
+  <w:style w:type="character" w:styleId="Hyperlink">
+    <w:name w:val="Hyperlink"/>
+    <w:uiPriority w:val="99"/>
+    <w:unhideWhenUsed/>
+    <w:rPr>
+        <w:color w:val="0563C1"/>
+        <w:u w:val="single"/>
+    </w:rPr>
+  </w:style>
   <w:style
       w:type="numbering"
       w:default="1"

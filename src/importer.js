@@ -35,7 +35,7 @@ function preprocessDOM(document) {
 }
 
 async function html2x(url, document, transformCfg, toMd, toDocx, preprocess = true) {
-  let name = 'static';
+  let name = 'index';
   let dirname = '';
 
   if (preprocess) {
@@ -98,7 +98,7 @@ async function html2x(url, document, transformCfg, toMd, toDocx, preprocess = tr
     html: pirs[0].extra.html,
   }
 
-  if (name !== 'static') {
+  if (name !== 'index') {
     res.name = name;
     res.dirname = dirname;
     res.path = `${dirname}/${name}`;

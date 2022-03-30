@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@adobe/helix-importer": "1.8.0",
+    "@adobe/helix-importer": "1.9.0",
     "jsdom": "19.0.0",
     "path-browserify": "1.0.1"
   },

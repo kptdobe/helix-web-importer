@@ -1,3 +1,4 @@
+DEPRECATED IN FAVOR OF https://github.com/kptdobe/helix-webui-importer
 # Helix Web Importer
 
 The Helix Web Importer is a tool to transform the current page DOM from HTML to Markdown and docx.
